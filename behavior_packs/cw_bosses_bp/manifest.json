@@ -1,0 +1,36 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "CatWars Bosses BP",
+    "description": "CatWars Bosses - behavior pack (bosses, abilities, loot)",
+    "uuid": "2c4fb1ee-c9f0-4107-a433-6e8a1ae05e8e",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 21, 0]
+  },
+  "modules": [
+    {
+      "description": "Boss data",
+      "type": "data",
+      "uuid": "dcf8477e-9ec2-4aa8-a674-848e2780c899",
+      "version": [1, 0, 0]
+    },
+    {
+      "description": "Boss scripts",
+      "type": "script",
+      "language": "javascript",
+      "uuid": "7d520592-2b2d-408b-b222-59c50443c3b0",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "8f389b96-ddfb-4745-8596-5ddf233844e4",
+      "version": [1, 0, 0]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.11.0"
+    }
+  ]
+}
