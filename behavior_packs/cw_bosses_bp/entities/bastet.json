@@ -17,7 +17,6 @@
       "minecraft:scale": { "value": 5.0 },
       "minecraft:collision_box": { "width": 2.5, "height": 4.5 },
       "minecraft:physics": {},
-      "minecraft:pushable": { "is_pushable": false, "is_pushable_by_piston": false },
       "minecraft:nameable": {},
       "minecraft:loot": { "table": "loot_tables/entities/bastet.json" },
       "minecraft:movement.basic": {},
