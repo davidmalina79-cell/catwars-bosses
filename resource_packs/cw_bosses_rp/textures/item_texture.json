@@ -1,0 +1,9 @@
+{
+  "resource_pack_name": "cw_bosses_rp",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "pharaoh_blade": {
+      "textures": "textures/items/pharaoh_blade"
+    }
+  }
+}
