@@ -4,3 +4,6 @@ pack.description=CatWars Bosses - textures, models
 entity.cw:bastet.name=Bastet
 item.spawn_egg.entity.cw:bastet.name=Vajíčko: Bastet
 item.cw:pharaoh_blade=Spár faraona
+entity.cw:yeti.name=Yeti
+item.spawn_egg.entity.cw:yeti.name=Vajíčko: Yeti
+item.cw:ice_weapon=Ledové žezlo

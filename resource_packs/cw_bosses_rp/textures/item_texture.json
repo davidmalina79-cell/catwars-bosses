@@ -4,6 +4,9 @@
   "texture_data": {
     "pharaoh_blade": {
       "textures": "textures/items/pharaoh_blade"
+    },
+    "ice_weapon": {
+      "textures": "textures/items/ice_weapon"
     }
   }
 }

@@ -116,3 +116,45 @@ system.runInterval(() => {
     }
   }
 }, 1);
+
+// ============================================================
+//  YETI - LEDOVA AURA
+//  Kazde pul sekundy: kazdy Yeti, ktery ma pobliz hrace,
+//  na nej uvali Slowness + lehky odhoz od sebe.
+// ============================================================
+
+const YETI_PULSE_TICKS = 10;     // jak casto aura pulsuje (10 = 0.5 s)
+const YETI_RANGE = 6;            // dosah ledove aury
+const SLOW_DURATION_TICKS = 80;  // delka Slowness (80 = 4 s)
+const SLOW_AMPLIFIER = 1;        // sila zpomaleni (0 = I, 1 = II)
+const YETI_PUSH = 0.45;          // sila odhozeni hrace
+const YETI_PUSH_UP = 0.25;       // mirne nadhozeni
+
+system.runInterval(() => {
+  for (const dim of dims()) {
+    let yetis;
+    try { yetis = dim.getEntities({ type: "cw:yeti" }); }
+    catch (e) { continue; }
+
+    for (const boss of yetis) {
+      if (!boss || !boss.isValid) continue;
+
+      const victims = dim.getPlayers({
+        location: boss.location,
+        maxDistance: YETI_RANGE
+      });
+      if (victims.length === 0) continue;
+
+      for (const v of victims) {
+        try {
+          v.addEffect("slowness", SLOW_DURATION_TICKS, { amplifier: SLOW_AMPLIFIER, showParticles: true });
+          const vx = v.location.x - boss.location.x;
+          const vz = v.location.z - boss.location.z;
+          const vl = Math.hypot(vx, vz) || 1;
+          v.applyKnockback(vx / vl, vz / vl, YETI_PUSH, YETI_PUSH_UP);
+        } catch (e) {}
+      }
+      try { boss.dimension.playSound("mob.wolf.shake", boss.location); } catch (e) {}
+    }
+  }
+}, YETI_PULSE_TICKS);
