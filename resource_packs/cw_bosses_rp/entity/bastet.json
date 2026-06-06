@@ -8,10 +8,10 @@
         "default": "textures/entity/zombie/zombie"
       },
       "geometry": {
-        "default": "geometry.humanoid.custom"
+        "default": "geometry.humanoid"
       },
       "render_controllers": [
-        "controller.render.zombie"
+        { "controller.render.bastet_gold": "true" }
       ],
       "spawn_egg": {
         "base_color": "#D4AF37",
