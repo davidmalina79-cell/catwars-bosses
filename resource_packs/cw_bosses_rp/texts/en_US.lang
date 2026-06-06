@@ -1,2 +1,5 @@
 pack.name=CatWars Bosses RP
 pack.description=CatWars Bosses - textures, models
+
+entity.cw:bastet.name=Bastet
+item.spawn_egg.entity.cw:bastet.name=Vajíčko: Bastet
