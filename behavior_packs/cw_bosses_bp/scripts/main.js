@@ -22,8 +22,8 @@ const JUMP_INTERVAL_TICKS = 80;   // jak casto skace (80 = 4 s)
 const JUMP_TRIGGER_RANGE = 14;    // na jakou vzdalenost skoci
 const SLAM_RADIUS = 5;            // polomer plosneho zraneni
 const SLAM_DAMAGE = 12;           // zraneni z dopadu
-const JUMP_UP = 1.1;              // sila skoku nahoru
-const JUMP_FORWARD = 2.2;         // sila skoku k hraci
+const JUMP_UP = 0.55;             // sila skoku nahoru
+const JUMP_FORWARD = 1.4;         // sila skoku k hraci
 
 const airborne = new Set();
 
@@ -43,6 +43,8 @@ system.runInterval(() => {
 
     for (const boss of bastets) {
       if (!boss || !boss.isValid) continue;
+      if (!boss.isOnGround) continue;
+      if (airborne.has(boss.id)) continue;
 
       const players = dim.getPlayers({
         location: boss.location,

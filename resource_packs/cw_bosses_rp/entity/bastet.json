@@ -5,7 +5,7 @@
       "identifier": "cw:bastet",
       "materials": { "default": "zombie" },
       "textures": {
-        "default": "textures/entity/zombie/zombie"
+        "default": "textures/entity/bastet/bastet"
       },
       "geometry": {
         "default": "geometry.humanoid"
