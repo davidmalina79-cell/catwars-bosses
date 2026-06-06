@@ -11,7 +11,7 @@
         "default": "geometry.humanoid"
       },
       "render_controllers": [
-        { "controller.render.bastet_gold": "true" }
+        "controller.render.zombie"
       ],
       "spawn_egg": {
         "base_color": "#D4AF37",
