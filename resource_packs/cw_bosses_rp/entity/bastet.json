@@ -11,14 +11,11 @@
         "default": "geometry.humanoid.custom"
       },
       "render_controllers": [
-        "controller.render.bastet"
+        "controller.render.zombie"
       ],
       "spawn_egg": {
         "base_color": "#D4AF37",
         "overlay_color": "#1A1A2E"
-      },
-      "scripts": {
-        "scale": "5.0"
       }
     }
   }
