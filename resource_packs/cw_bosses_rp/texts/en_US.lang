@@ -7,3 +7,5 @@ item.cw:pharaoh_blade=Spár faraona
 entity.cw:yeti.name=Yeti
 item.spawn_egg.entity.cw:yeti.name=Vajíčko: Yeti
 item.cw:ice_weapon=Ledové žezlo
+entity.cw:water_fire_knight.name=Vodoohnivý rytíř
+item.spawn_egg.entity.cw:water_fire_knight.name=Vajíčko: Vodoohnivý rytíř

@@ -1,0 +1,61 @@
+{
+  "format_version": "1.26.10",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "cw:water_fire_knight",
+      "spawn_category": "monster",
+      "is_spawnable": true,
+      "is_summonable": true
+    },
+    "components": {
+      "minecraft:type_family": { "family": ["cw_water_fire_knight", "cw_boss", "monster", "mob"] },
+      "minecraft:health": { "value": 750, "max": 750 },
+      "minecraft:attack": { "damage": 10 },
+      "minecraft:movement": { "value": 0.23 },
+      "minecraft:knockback_resistance": { "value": 1.0, "max": 1.0 },
+      "minecraft:fire_immune": true,
+      "minecraft:damage_sensor": {
+        "triggers": [
+          { "cause": "fall", "deal_damage": false },
+          { "cause": "fire", "deal_damage": false },
+          { "cause": "lava", "deal_damage": false },
+          {
+            "cause": "entity_attack",
+            "deal_damage": true,
+            "on_damage": {
+              "event": "cw:on_hit",
+              "target": "self"
+            }
+          }
+        ]
+      },
+      "minecraft:follow_range": { "value": 48, "max": 48 },
+      "minecraft:scale": { "value": 5.0 },
+      "minecraft:collision_box": { "width": 0.6, "height": 1.9 },
+      "minecraft:physics": {},
+      "minecraft:nameable": {},
+      "minecraft:loot": { "table": "loot_tables/entities/water_fire_knight.json" },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:navigation.walk": { "can_path_over_water": true, "can_walk": true, "can_pass_doors": true, "avoid_water": false },
+      "minecraft:behavior.float": { "priority": 0 },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 1,
+        "must_see": true,
+        "reselect_targets": true,
+        "within_radius": 48,
+        "entity_types": [
+          { "filters": { "test": "is_family", "subject": "other", "value": "player" }, "max_dist": 48 }
+        ]
+      },
+      "minecraft:behavior.melee_attack": { "priority": 2, "speed_multiplier": 1.0, "track_target": true },
+      "minecraft:behavior.random_stroll": { "priority": 6, "speed_multiplier": 0.8 },
+      "minecraft:behavior.look_at_player": { "priority": 7, "look_distance": 16 },
+      "minecraft:behavior.random_look_around": { "priority": 8 }
+    },
+    "events": {
+      "cw:on_hit": {}
+    }
+  }
+}

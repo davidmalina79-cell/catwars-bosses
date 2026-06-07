@@ -1,0 +1,22 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cw:water_fire_knight",
+      "materials": { "default": "zombie" },
+      "textures": {
+        "default": "textures/entity/water_fire_knight/water_fire_knight"
+      },
+      "geometry": {
+        "default": "geometry.humanoid"
+      },
+      "render_controllers": [
+        "controller.render.zombie"
+      ],
+      "spawn_egg": {
+        "base_color": "#FF5A00",
+        "overlay_color": "#0078DC"
+      }
+    }
+  }
+}

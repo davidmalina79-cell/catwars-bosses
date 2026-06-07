@@ -158,3 +158,80 @@ system.runInterval(() => {
     }
   }
 }, YETI_PULSE_TICKS);
+
+// ============================================================
+//  VODOOHNIVY RYTIR - REAKCE NA SEKNUTI
+//  Kdyz rytire nekdo zasahne, s kratkym cooldownem kolem sebe
+//  vychrli vlnu: ohniva strana hrace ZAPALI a popali,
+//  vodni strana hrace ODHODI. Cara mezi ohnem a vodou.
+// ============================================================
+
+const KNIGHT_REACT_COOLDOWN = 30;  // min. odstup mezi reakcemi (30 = 1.5 s)
+const KNIGHT_RANGE = 6;            // dosah vlny
+const KNIGHT_FIRE_DAMAGE = 6;      // popaleni navic
+const KNIGHT_FIRE_SECONDS = 4;     // jak dlouho hrac hori
+const KNIGHT_PUSH = 1.1;           // sila vodniho odhozeni
+const KNIGHT_PUSH_UP = 0.55;       // nadhozeni vodou
+
+const knightCooldown = new Map();  // id -> tick, kdy zase smi reagovat
+
+world.afterEvents.entityHurt.subscribe((event) => {
+  const boss = event.hurtEntity;
+  if (!boss || !boss.isValid) return;
+  if (boss.typeId !== "cw:water_fire_knight") return;
+
+  const now = system.currentTick;
+  const ready = knightCooldown.get(boss.id) || 0;
+  if (now < ready) return;
+  knightCooldown.set(boss.id, now + KNIGHT_REACT_COOLDOWN);
+
+  const dim = boss.dimension;
+
+  // zvuky: zasyceni pary (ohen + voda)
+  try { dim.playSound("random.fizz", boss.location); } catch (e) {}
+  try { dim.playSound("mob.blaze.shoot", boss.location); } catch (e) {}
+
+  // castice kolem rytire
+  try {
+    dim.spawnParticle("minecraft:large_explosion", boss.location);
+  } catch (e) {}
+
+  const victims = dim.getPlayers({
+    location: boss.location,
+    maxDistance: KNIGHT_RANGE
+  });
+
+  for (const v of victims) {
+    const dx = v.location.x - boss.location.x;
+    const dz = v.location.z - boss.location.z;
+    const vl = Math.hypot(dx, dz) || 1;
+
+    // ohniva strana = zaboduje podle toho, jestli je hrac na X<0 strane rytire.
+    // Pro jednoduchost: vsem dame OBE pulky efektu (ohen popali, voda odhodi),
+    // aby utok poznal kazdy bez ohledu na to, z ktere strany stoji.
+    try {
+      // OHEN
+      v.setOnFire(KNIGHT_FIRE_SECONDS, true);
+      v.applyDamage(KNIGHT_FIRE_DAMAGE, { cause: "fire", damagingEntity: boss });
+    } catch (e) {}
+    try {
+      // VODA - odhoz
+      v.applyKnockback(dx / vl, dz / vl, KNIGHT_PUSH, KNIGHT_PUSH_UP);
+    } catch (e) {}
+  }
+});
+
+// uklid cooldownu, kdyz rytir zmizi (aby Map nerostla donekonecna)
+system.runInterval(() => {
+  if (knightCooldown.size === 0) return;
+  const alive = new Set();
+  for (const dim of dims()) {
+    let knights;
+    try { knights = dim.getEntities({ type: "cw:water_fire_knight" }); }
+    catch (e) { continue; }
+    for (const k of knights) if (k && k.isValid) alive.add(k.id);
+  }
+  for (const id of knightCooldown.keys()) {
+    if (!alive.has(id)) knightCooldown.delete(id);
+  }
+}, 200);
