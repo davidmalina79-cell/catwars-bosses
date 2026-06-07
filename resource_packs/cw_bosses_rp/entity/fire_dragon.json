@@ -3,19 +3,15 @@
   "minecraft:client_entity": {
     "description": {
       "identifier": "cw:fire_dragon",
-      "materials": {
-        "default": "dragon",
-        "cape": "dragon_cape",
-        "eyes": "dragon_eyes"
-      },
+      "materials": { "default": "ghast" },
       "textures": {
         "default": "textures/entity/fire_dragon/fire_dragon"
       },
       "geometry": {
-        "default": "geometry.dragon"
+        "default": "geometry.ghast"
       },
       "render_controllers": [
-        "controller.render.dragon"
+        "controller.render.ghast"
       ],
       "spawn_egg": {
         "base_color": "#8B1A00",

@@ -173,7 +173,34 @@ const KNIGHT_FIRE_SECONDS = 4;     // jak dlouho hrac hori
 const KNIGHT_PUSH = 1.1;           // sila vodniho odhozeni
 const KNIGHT_PUSH_UP = 0.55;       // nadhozeni vodou
 
+// --- castice z nohou po zasahu ---
+const KNIGHT_SPRAY_TICKS = 20;     // jak dlouho po zasahu castice tryskaji (20 = 1 s)
+const KNIGHT_FOOT_OFFSET = 0.35;   // jak daleko od stredu jsou nohy (leva/prava)
+const KNIGHT_FOOT_Y = 0.15;        // vyska u zeme, odkud castice vychazi
+
 const knightCooldown = new Map();  // id -> tick, kdy zase smi reagovat
+const knightSpray = new Map();     // id -> tick, do ktereho z nohou tece
+
+// vrati pozice leve a prave nohy podle natoceni rytire
+function knightFeet(boss) {
+  const ry = (boss.getRotation ? boss.getRotation().y : 0) * Math.PI / 180;
+  // bocni smer (kolmo na pohled): leva = -, prava = +
+  const sx = Math.cos(ry);
+  const sz = Math.sin(ry);
+  const base = boss.location;
+  return {
+    left: {
+      x: base.x - sx * KNIGHT_FOOT_OFFSET,
+      y: base.y + KNIGHT_FOOT_Y,
+      z: base.z - sz * KNIGHT_FOOT_OFFSET
+    },
+    right: {
+      x: base.x + sx * KNIGHT_FOOT_OFFSET,
+      y: base.y + KNIGHT_FOOT_Y,
+      z: base.z + sz * KNIGHT_FOOT_OFFSET
+    }
+  };
+}
 
 world.afterEvents.entityHurt.subscribe((event) => {
   const boss = event.hurtEntity;
@@ -185,16 +212,14 @@ world.afterEvents.entityHurt.subscribe((event) => {
   if (now < ready) return;
   knightCooldown.set(boss.id, now + KNIGHT_REACT_COOLDOWN);
 
+  // zapni tryskani castic z nohou na ~1 sekundu
+  knightSpray.set(boss.id, now + KNIGHT_SPRAY_TICKS);
+
   const dim = boss.dimension;
 
   // zvuky: zasyceni pary (ohen + voda)
   try { dim.playSound("random.fizz", boss.location); } catch (e) {}
   try { dim.playSound("mob.blaze.shoot", boss.location); } catch (e) {}
-
-  // castice kolem rytire
-  try {
-    dim.spawnParticle("minecraft:large_explosion", boss.location);
-  } catch (e) {}
 
   const victims = dim.getPlayers({
     location: boss.location,
@@ -220,6 +245,40 @@ world.afterEvents.entityHurt.subscribe((event) => {
     } catch (e) {}
   }
 });
+
+// --- tryskani castic z nohou: VODA z leve, LAVA z prave ---
+system.runInterval(() => {
+  if (knightSpray.size === 0) return;
+  const now = system.currentTick;
+
+  for (const dim of dims()) {
+    let knights;
+    try { knights = dim.getEntities({ type: "cw:water_fire_knight" }); }
+    catch (e) { continue; }
+
+    for (const boss of knights) {
+      if (!boss || !boss.isValid) continue;
+      const until = knightSpray.get(boss.id);
+      if (!until || now > until) continue;
+
+      const feet = knightFeet(boss);
+      try {
+        // VODA - leva noha
+        dim.spawnParticle("minecraft:water_splash_particle_manual", feet.left);
+      } catch (e) {}
+      try {
+        // LAVA - prava noha
+        dim.spawnParticle("minecraft:lava_particle", feet.right);
+        dim.spawnParticle("minecraft:basic_flame_particle", feet.right);
+      } catch (e) {}
+    }
+  }
+
+  // uklid prosle zaznamy
+  for (const [id, until] of knightSpray) {
+    if (now > until) knightSpray.delete(id);
+  }
+}, 2);
 
 // uklid cooldownu, kdyz rytir zmizi (aby Map nerostla donekonecna)
 system.runInterval(() => {

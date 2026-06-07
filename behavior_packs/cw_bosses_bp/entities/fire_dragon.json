@@ -1,5 +1,5 @@
 {
-  "format_version": "1.26.10",
+  "format_version": "1.21.0",
   "minecraft:entity": {
     "description": {
       "identifier": "cw:fire_dragon",
@@ -11,8 +11,6 @@
       "minecraft:type_family": { "family": ["cw_fire_dragon", "cw_boss", "monster", "mob"] },
       "minecraft:health": { "value": 500, "max": 500 },
       "minecraft:attack": { "damage": 12 },
-      "minecraft:movement": { "value": 0.6 },
-      "minecraft:flying_speed": { "value": 0.6 },
       "minecraft:knockback_resistance": { "value": 1.0, "max": 1.0 },
       "minecraft:fire_immune": {},
       "minecraft:damage_sensor": {
@@ -24,12 +22,13 @@
         ]
       },
       "minecraft:follow_range": { "value": 64, "max": 64 },
-      "minecraft:scale": { "value": 1.0 },
-      "minecraft:collision_box": { "width": 2.0, "height": 2.0 },
-      "minecraft:can_fly": {},
+      "minecraft:scale": { "value": 3.0 },
+      "minecraft:collision_box": { "width": 4.0, "height": 4.0 },
+      "minecraft:floats_in_liquid": {},
       "minecraft:physics": { "has_gravity": false, "has_collision": true },
       "minecraft:nameable": {},
       "minecraft:loot": { "table": "loot_tables/entities/fire_dragon.json" },
+      "minecraft:movement": { "value": 0.7 },
       "minecraft:movement.fly": {},
       "minecraft:navigation.fly": {
         "can_path_over_water": true,
@@ -58,12 +57,6 @@
       },
       "minecraft:shooter": {
         "def": "minecraft:fireball"
-      },
-      "minecraft:behavior.swoop_attack": {
-        "priority": 3,
-        "damage_reach": 2,
-        "speed_multiplier": 2.0,
-        "delay_range": [1.0, 3.0]
       },
       "minecraft:behavior.random_fly": {
         "priority": 5,
