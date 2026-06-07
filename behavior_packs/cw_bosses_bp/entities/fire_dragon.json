@@ -1,0 +1,80 @@
+{
+  "format_version": "1.26.10",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "cw:fire_dragon",
+      "spawn_category": "monster",
+      "is_spawnable": true,
+      "is_summonable": true
+    },
+    "components": {
+      "minecraft:type_family": { "family": ["cw_fire_dragon", "cw_boss", "monster", "mob"] },
+      "minecraft:health": { "value": 500, "max": 500 },
+      "minecraft:attack": { "damage": 12 },
+      "minecraft:movement": { "value": 0.6 },
+      "minecraft:flying_speed": { "value": 0.6 },
+      "minecraft:knockback_resistance": { "value": 1.0, "max": 1.0 },
+      "minecraft:fire_immune": true,
+      "minecraft:damage_sensor": {
+        "triggers": [
+          { "cause": "fall", "deal_damage": false },
+          { "cause": "fire", "deal_damage": false },
+          { "cause": "lava", "deal_damage": false },
+          { "cause": "drowning", "deal_damage": false }
+        ]
+      },
+      "minecraft:follow_range": { "value": 64, "max": 64 },
+      "minecraft:scale": { "value": 1.0 },
+      "minecraft:collision_box": { "width": 2.0, "height": 2.0 },
+      "minecraft:can_fly": {},
+      "minecraft:physics": { "has_gravity": false, "has_collision": true },
+      "minecraft:nameable": {},
+      "minecraft:loot": { "table": "loot_tables/entities/fire_dragon.json" },
+      "minecraft:movement.fly": {},
+      "minecraft:navigation.fly": {
+        "can_path_over_water": true,
+        "can_path_from_air": true,
+        "avoid_water": false,
+        "avoid_damage_blocks": false
+      },
+      "minecraft:jump.static": {},
+      "minecraft:behavior.float": { "priority": 0 },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 1,
+        "must_see": false,
+        "reselect_targets": true,
+        "within_radius": 64,
+        "entity_types": [
+          { "filters": { "test": "is_family", "subject": "other", "value": "player" }, "max_dist": 64 }
+        ]
+      },
+      "minecraft:behavior.ranged_attack": {
+        "priority": 2,
+        "attack_interval_min": 2.0,
+        "attack_interval_max": 4.0,
+        "attack_radius": 40,
+        "burst_shots": 1,
+        "speed_multiplier": 1.2
+      },
+      "minecraft:shooter": {
+        "def": "minecraft:fireball"
+      },
+      "minecraft:behavior.swoop_attack": {
+        "priority": 3,
+        "damage_reach": 2,
+        "speed_multiplier": 2.0,
+        "delay_range": [1.0, 3.0]
+      },
+      "minecraft:behavior.random_fly": {
+        "priority": 5,
+        "xz_dist": 15,
+        "y_dist": 7,
+        "y_offset": 3,
+        "can_land_on_trees": false,
+        "avoid_damage_blocks": false
+      },
+      "minecraft:behavior.look_at_player": { "priority": 7, "look_distance": 32 },
+      "minecraft:behavior.random_look_around": { "priority": 8 }
+    }
+  }
+}

@@ -235,3 +235,41 @@ system.runInterval(() => {
     if (!alive.has(id)) knightCooldown.delete(id);
   }
 }, 200);
+
+// ============================================================
+//  OHNIVY DRAK - ZAPALENI PRI ZASAHU + ohniva stopa
+//  Drak strili ohnive koule a nalita sam (vanilla chovani).
+//  Skript navic: kdyz drak zrani hrace, zapali ho.
+//  A kazdou vterinu pod letícím drakem zustava ohniva castice,
+//  at je videt, ze je rozzhaveny.
+// ============================================================
+
+const DRAGON_FIRE_SECONDS = 5;   // jak dlouho hrac hori po zasahu drakem
+
+world.afterEvents.entityHurt.subscribe((event) => {
+  const src = event.damageSource;
+  if (!src || !src.damagingEntity) return;
+  const attacker = src.damagingEntity;
+  if (!attacker || attacker.typeId !== "cw:fire_dragon") return;
+
+  const victim = event.hurtEntity;
+  if (!victim || !victim.isValid) return;
+
+  try { victim.setOnFire(DRAGON_FIRE_SECONDS, true); } catch (e) {}
+});
+
+// ohniva stopa + obcasny rev draka
+system.runInterval(() => {
+  for (const dim of dims()) {
+    let dragons;
+    try { dragons = dim.getEntities({ type: "cw:fire_dragon" }); }
+    catch (e) { continue; }
+
+    for (const d of dragons) {
+      if (!d || !d.isValid) continue;
+      try {
+        dim.spawnParticle("minecraft:basic_flame_particle", d.location);
+      } catch (e) {}
+    }
+  }
+}, 20);

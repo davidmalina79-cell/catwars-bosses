@@ -1,0 +1,26 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "cw:fire_dragon",
+      "materials": {
+        "default": "dragon",
+        "cape": "dragon_cape",
+        "eyes": "dragon_eyes"
+      },
+      "textures": {
+        "default": "textures/entity/fire_dragon/fire_dragon"
+      },
+      "geometry": {
+        "default": "geometry.dragon"
+      },
+      "render_controllers": [
+        "controller.render.dragon"
+      ],
+      "spawn_egg": {
+        "base_color": "#8B1A00",
+        "overlay_color": "#FF7800"
+      }
+    }
+  }
+}
