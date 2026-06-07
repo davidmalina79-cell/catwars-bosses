@@ -14,13 +14,13 @@
       "minecraft:movement": { "value": 0.6 },
       "minecraft:flying_speed": { "value": 0.6 },
       "minecraft:knockback_resistance": { "value": 1.0, "max": 1.0 },
-      "minecraft:fire_immune": true,
+      "minecraft:fire_immune": {},
       "minecraft:damage_sensor": {
         "triggers": [
-          { "cause": "fall", "deal_damage": false },
-          { "cause": "fire", "deal_damage": false },
-          { "cause": "lava", "deal_damage": false },
-          { "cause": "drowning", "deal_damage": false }
+          { "cause": "fall", "deals_damage": false },
+          { "cause": "fire", "deals_damage": false },
+          { "cause": "lava", "deals_damage": false },
+          { "cause": "drowning", "deals_damage": false }
         ]
       },
       "minecraft:follow_range": { "value": 64, "max": 64 },

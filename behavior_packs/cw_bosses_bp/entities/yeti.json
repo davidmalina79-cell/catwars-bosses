@@ -15,7 +15,7 @@
       "minecraft:knockback_resistance": { "value": 1.0, "max": 1.0 },
       "minecraft:damage_sensor": {
         "triggers": [
-          { "cause": "fall", "deal_damage": false }
+          { "cause": "fall", "deals_damage": false }
         ]
       },
       "minecraft:follow_range": { "value": 48, "max": 48 },
